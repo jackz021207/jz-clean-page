@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{profile.name}</title>
     <meta name="description" content={profile.bio} />
-    <meta name="theme-color" content="#fafaf8" />
+    <meta name="theme-color" content="#000000" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,11 +50,13 @@ const year = new Date().getFullYear();
 
 <style is:global>
   :root {
-    --paper: #fafaf8;
-    --ink: #16171b;
-    --muted: #5c5f68;
-    --faint: #9a9ca3;
-    --rule: #e8e7e3;
+    /* --paper must match the ocean canvas background (#000) so the fade is seamless. */
+    --paper: #000;
+    --ink: #ededed;
+    --body: #c4c4c8;
+    --muted: #9b9ba1;
+    --faint: #66666c;
+    --rule: #1d1d20;
     --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
     --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -76,8 +78,12 @@ const year = new Date().getFullYear();
   body {
     margin: 0;
   }
+  html {
+    color-scheme: dark;
+  }
   ::selection {
-    background: #dfe6fb;
+    background: #2a3550;
+    color: #fff;
   }
   a {
     color: inherit;
@@ -118,7 +124,7 @@ const year = new Date().getFullYear();
     max-width: 36rem;
     font-size: 1.0625rem;
     line-height: 1.65;
-    color: #34363d;
+    color: var(--body);
   }
   nav {
     display: flex;
