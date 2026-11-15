@@ -4,7 +4,11 @@ export const profile = {
   name: "Junqi Zhao",
   role: "Software Engineer",
   location: "Bellevue, WA",
-  bio: "I'm a full-stack engineer, and a backend engineer at heart. Most of my time goes into data systems: running Spark on Kubernetes, modeling the world as a Neo4j graph, and chasing down why a database query is slow. Lately I've been pulled toward ML infrastructure and ML systems, the work of making models train, serve, and scale well. That curiosity is also where my research on efficient LLM inference comes from.",
+  // Each string is its own paragraph.
+  bio: [
+    "I'm a full-stack engineer, and a backend engineer at heart. Most of my time goes into data systems: running Spark on Kubernetes, modeling the world as a Neo4j graph, and chasing down why a database query is slow.",
+    "Lately I've been pulled toward ML infrastructure and ML systems, the work of making models train, serve, and scale well. That curiosity is also where my research on efficient LLM inference comes from.",
+  ],
   links: [
     { label: "Email", href: "mailto:jackz021207@gmail.com" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/junqizhao021207" },
@@ -19,6 +23,8 @@ export type Entry = {
   place?: string;
   detail?: string;
   href?: string;
+  /** Small square icon shown before `org`, served from /public/logos. */
+  logo?: string;
 };
 
 export const education: Entry[] = [
@@ -26,6 +32,7 @@ export const education: Entry[] = [
     period: "2021 — 2024",
     title: "Bachelor in Computer Science",
     org: "New York University",
+    logo: "/logos/nyu.svg",
     place: "New York, NY",
     detail: "GPA 3.96 / 4.0 · Summa Cum Laude",
   },
@@ -36,6 +43,7 @@ export const experience: Entry[] = [
     period: "2025 — Now",
     title: "Software Engineer, Infrastructure Security",
     org: "Tesla",
+    logo: "/logos/tesla.png",
     place: "Bellevue, WA",
     detail:
       "Building the asset intelligence, graph, and Spark compute platforms that give security teams a unified view of risk across millions of assets.",
@@ -44,6 +52,7 @@ export const experience: Entry[] = [
     period: "2025",
     title: "Software Engineer Intern, Infrastructure Security",
     org: "Tesla",
+    logo: "/logos/tesla.png",
     place: "Bellevue, WA",
     detail: "Built an LLM-powered security agent that generates threat playbooks from the attack-surface graph.",
   },
@@ -51,6 +60,7 @@ export const experience: Entry[] = [
     period: "2024",
     title: "Software Engineer Intern, Engineering Efficiency",
     org: "NIO",
+    logo: "/logos/nio.png",
     place: "Shanghai",
     detail: "Built an event-driven workflow automation platform connecting GitLab, Jira, and Lark for 200+ employees.",
   },

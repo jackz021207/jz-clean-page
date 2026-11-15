@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{profile.name}</title>
-    <meta name="description" content={profile.bio} />
+    <meta name="description" content={profile.bio.join(" ")} />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,7 +31,7 @@ const year = new Date().getFullYear();
         <p class="role">
           {profile.role}<span class="sep">/</span>{profile.location}
         </p>
-        <p class="bio">{profile.bio}</p>
+        <div class="bio">{profile.bio.map((p) => <p>{p}</p>)}</div>
         <nav aria-label="Links">
           {profile.links.map((l) => <a href={l.href}>{l.label}</a>)}
         </nav>
@@ -121,10 +121,16 @@ const year = new Date().getFullYear();
   }
   .bio {
     margin: 1.75rem 0 0;
-    max-width: 36rem;
+    max-width: 44rem;
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--body);
+  }
+  .bio p {
+    margin: 0;
+  }
+  .bio p + p {
+    margin-top: 1rem;
   }
   nav {
     display: flex;

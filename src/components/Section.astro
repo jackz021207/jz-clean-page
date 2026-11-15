@@ -27,6 +27,7 @@ const { title, entries } = Astro.props;
               )}
             </h3>
             <p class="org">
+              {e.logo && <img class="logo" src={e.logo} alt="" width="16" height="16" />}
               {e.org}
               {e.place && <span class="place"> · {e.place}</span>}
             </p>
@@ -107,6 +108,15 @@ const { title, entries } = Astro.props;
     margin: 0.2rem 0 0;
     color: var(--muted);
     font-size: 0.9375rem;
+  }
+  .logo {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+    vertical-align: -3px;
+    object-fit: contain;
+    border-radius: 4px;
   }
   .place {
     color: var(--faint);
