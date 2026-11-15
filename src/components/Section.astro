@@ -1,0 +1,131 @@
+---
+import type { Entry } from "../data/profile";
+
+interface Props {
+  title: string;
+  entries: Entry[];
+}
+const { title, entries } = Astro.props;
+---
+
+<section>
+  <h2>{title}</h2>
+  <ol>
+    {
+      entries.map((e) => (
+        <li>
+          <span class="period">{e.period}</span>
+          <div>
+            <h3>
+              {e.href ? (
+                <a href={e.href}>
+                  {e.title}
+                  <span class="arrow" aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                e.title
+              )}
+            </h3>
+            <p class="org">
+              {e.org}
+              {e.place && <span class="place"> · {e.place}</span>}
+            </p>
+            {e.detail && <p class="detail">{e.detail}</p>}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  section {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 0 2rem;
+    padding: 2.75rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  h2 {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding-top: 0.2rem;
+  }
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.75rem;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 1.5rem;
+  }
+  .period {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding-top: 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+    background-image: linear-gradient(var(--ink), var(--ink));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s ease;
+  }
+  h3 a:hover {
+    background-size: 100% 1px;
+  }
+  .arrow {
+    display: inline-block;
+    margin-left: 0.2em;
+    font-size: 0.85em;
+    color: var(--faint);
+    transition: transform 0.2s ease;
+  }
+  h3 a:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+  .org {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .place {
+    color: var(--faint);
+  }
+  .detail {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 720px) {
+    section {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    li {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+  }
+</style>

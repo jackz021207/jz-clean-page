@@ -1,0 +1,61 @@
+---
+// Full-bleed ASCII ocean. Only this component ships JavaScript.
+---
+
+<div class="ocean">
+  <canvas aria-hidden="true"></canvas>
+  <div class="fade" aria-hidden="true"></div>
+  <p class="caption">ascii ocean — move or click</p>
+</div>
+
+<script>
+  import { OceanEngine, type SharkSpec } from "../lib/ascii-sharks";
+
+  const canvas = document.querySelector<HTMLCanvasElement>(".ocean canvas");
+  if (canvas) {
+    const small = window.matchMedia("(max-width: 640px)").matches;
+    const sharks: SharkSpec[] = small
+      ? [{ kind: "hammerhead", size: 1.1 }]
+      : [
+          { kind: "hammerhead", size: 1.45 },
+          { kind: "classic", size: 1.0 },
+        ];
+    // Fewer fish than the default area-based count keeps the page calm.
+    const fishCount = Math.round((window.innerWidth * window.innerHeight) / 9000);
+    new OceanEngine(canvas, sharks, { theme: "light", fishCount: Math.min(Math.max(fishCount, 50), 160) });
+  }
+</script>
+
+<style>
+  .ocean {
+    position: relative;
+    height: min(74vh, 760px);
+    min-height: 420px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-mono);
+  }
+  .fade {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 30%;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgb(250 250 248 / 0), var(--paper));
+  }
+  .caption {
+    position: absolute;
+    right: 1.25rem;
+    top: 1rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--faint);
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,163 @@
+---
+import Ocean from "../components/Ocean.astro";
+import Section from "../components/Section.astro";
+import { profile, education, experience, research } from "../data/profile";
+
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name}</title>
+    <meta name="description" content={profile.bio} />
+    <meta name="theme-color" content="#fafaf8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Inter:wght@400;500&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Ocean />
+
+    <main>
+      <header>
+        <h1>{profile.name}</h1>
+        <p class="role">
+          {profile.role}<span class="sep">/</span>{profile.location}
+        </p>
+        <p class="bio">{profile.bio}</p>
+        <nav aria-label="Links">
+          {profile.links.map((l) => <a href={l.href}>{l.label}</a>)}
+        </nav>
+      </header>
+
+      <Section title="Education" entries={education} />
+      <Section title="Experience" entries={experience} />
+      <Section title="Research" entries={research} />
+
+      <footer>
+        <span>© {year} {profile.name}</span>
+        <span>
+          Sharks by <a href="https://github.com/stackedlol/ascii-sharks">ascii-sharks</a>
+        </span>
+      </footer>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --paper: #fafaf8;
+    --ink: #16171b;
+    --muted: #5c5f68;
+    --faint: #9a9ca3;
+    --rule: #e8e7e3;
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+    --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    margin: 0;
+  }
+  ::selection {
+    background: #dfe6fb;
+  }
+  a {
+    color: inherit;
+  }
+</style>
+
+<style>
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+    position: relative;
+    margin-top: -4.5rem;
+  }
+  header {
+    padding-bottom: 3rem;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 7vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .role {
+    margin: 1rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .sep {
+    margin: 0 0.6em;
+    color: var(--faint);
+  }
+  .bio {
+    margin: 1.75rem 0 0;
+    max-width: 36rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: #34363d;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.75rem;
+  }
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  nav a:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--faint);
+  }
+  footer a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  footer a:hover {
+    color: var(--ink);
+  }
+</style>
