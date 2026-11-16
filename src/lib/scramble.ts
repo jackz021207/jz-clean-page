@@ -17,17 +17,24 @@ export function scramble(el: HTMLElement, { duration = 650 }: Options = {}) {
   const text = (el.dataset.text ??= el.textContent ?? "");
   el.dataset.running = "1";
 
-  // Measure each letter's real width so every glyph gets a fixed slot and the
-  // word can't jitter while it churns.
+  // Give every letter a fixed slot so the word can't jitter while it churns.
+  // Slots are the distance from each letter's position to the next one's in
+  // the real text, so kerning and letter-spacing are baked in and the word
+  // keeps exactly its natural width (no shrink when plain text comes back).
   const widths: number[] = [];
   const node = el.firstChild;
   if (node instanceof Text && node.data === text) {
     const range = document.createRange();
+    const left: number[] = [];
     for (let i = 0; i < text.length; i++) {
       range.setStart(node, i);
       range.setEnd(node, i + 1);
-      widths.push(range.getBoundingClientRect().width);
+      left.push(range.getBoundingClientRect().left);
     }
+    range.setStart(node, 0);
+    range.setEnd(node, text.length);
+    left.push(range.getBoundingClientRect().right);
+    for (let i = 0; i < text.length; i++) widths.push(left[i + 1] - left[i]);
   }
 
   const n = text.length;
