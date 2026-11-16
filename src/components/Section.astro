@@ -9,7 +9,7 @@ const { title, entries } = Astro.props;
 ---
 
 <section>
-  <h2>{title}</h2>
+  <h2 data-scramble>{title}</h2>
   <ol>
     {
       entries.map((e) => (
@@ -117,6 +117,8 @@ const { title, entries } = Astro.props;
     vertical-align: -3px;
     object-fit: contain;
     border-radius: 4px;
+    /* Keeps white tiles (Tesla, NIO) defined on the light theme. */
+    box-shadow: 0 0 0 1px var(--rule);
   }
   .place {
     color: var(--faint);

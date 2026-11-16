@@ -54,6 +54,14 @@ export class OceanEngine {
     this.schedule();
   }
 
+  /** Local addition: swap palettes in place; sharks and fish keep swimming. */
+  setTheme(theme: Theme) {
+    this.renderer = new AsciiRenderer(this.canvas, theme);
+    this.renderer.setFontFamily(getComputedStyle(this.canvas).fontFamily);
+    this.resize();
+    if (this.reducedMotion.matches) this.drawStill();
+  }
+
   destroy() {
     this.disposed = true;
     cancelAnimationFrame(this.raf);

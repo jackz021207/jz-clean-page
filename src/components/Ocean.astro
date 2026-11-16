@@ -1,14 +1,25 @@
 ---
-// Full-bleed ASCII ocean. Only this component ships JavaScript.
+// Full-bleed ASCII ocean, plus the light/dark toggle that sits on top of it.
 ---
 
 <div class="ocean">
   <canvas aria-hidden="true"></canvas>
   <div class="fade" aria-hidden="true"></div>
+  <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+    <!-- Shows the theme you'd switch to: sun in dark mode, moon in light mode. -->
+    <svg class="sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+    </svg>
+    <svg class="moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+      <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"></path>
+    </svg>
+  </button>
 </div>
 
 <script>
   import { OceanEngine, type SharkSpec } from "../lib/ascii-sharks";
+  import { getTheme, registerOcean, setTheme } from "../lib/site";
 
   const canvas = document.querySelector<HTMLCanvasElement>(".ocean canvas");
   if (canvas) {
@@ -22,9 +33,19 @@
         ];
     // Fewer fish than the default area-based count keeps the page calm.
     const fishCount = Math.round((window.innerWidth * window.innerHeight) / 9000);
-    // theme: "dark" is the original look; "light" is our paper variant (kept for later).
-    new OceanEngine(canvas, sharks, { theme: "dark", fishCount: Math.min(Math.max(fishCount, 50), 160) });
+    registerOcean(
+      new OceanEngine(canvas, sharks, { theme: getTheme(), fishCount: Math.min(Math.max(fishCount, 50), 160) }),
+    );
   }
+
+  // Icon swap is pure CSS (keyed off html[data-theme]); JS only keeps the label accurate.
+  const button = document.querySelector<HTMLButtonElement>(".theme-toggle");
+  const sync = () => {
+    button?.setAttribute("aria-label", `Switch to ${getTheme() === "dark" ? "light" : "dark"} theme`);
+  };
+  sync();
+  button?.addEventListener("click", () => setTheme(getTheme() === "dark" ? "light" : "dark"));
+  window.addEventListener("themechange", sync);
 </script>
 
 <style>
@@ -46,6 +67,46 @@
     inset: auto 0 0 0;
     height: 30%;
     pointer-events: none;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0), var(--paper));
+    background: linear-gradient(to bottom, transparent, var(--paper));
+  }
+  .theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    color: var(--muted);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .theme-toggle:hover {
+    color: var(--ink);
+    border-color: var(--muted);
+  }
+  .theme-toggle svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .moon {
+    display: none;
+  }
+  :global(html[data-theme="light"]) .sun {
+    display: none;
+  }
+  :global(html[data-theme="light"]) .moon {
+    display: block;
+  }
+  .theme-toggle:focus-visible {
+    outline: 1px solid var(--ink);
+    outline-offset: 2px;
   }
 </style>

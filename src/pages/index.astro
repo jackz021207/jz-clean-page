@@ -14,6 +14,15 @@ const year = new Date().getFullYear();
     <title>{profile.name}</title>
     <meta name="description" content={profile.bio.join(" ")} />
     <meta name="theme-color" content="#000000" />
+    <script is:inline>
+      // Apply the saved theme before first paint so there's no flash. Default: dark.
+      try {
+        if (localStorage.getItem("theme") === "light") {
+          document.documentElement.dataset.theme = "light";
+          document.querySelector('meta[name="theme-color"]').setAttribute("content", "#fafaf8");
+        }
+      } catch (e) {}
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,7 +36,7 @@ const year = new Date().getFullYear();
 
     <main>
       <header>
-        <h1>{profile.name}</h1>
+        <h1 data-scramble>{profile.name}</h1>
         <p class="role">
           <span class="typed">{profile.role}<span class="sep">/</span>{profile.location}</span><span
             class="cursor"
@@ -49,6 +58,9 @@ const year = new Date().getFullYear();
     </main>
 
     <script>
+      import { initScramble } from "../lib/scramble";
+      initScramble();
+
       // Typewriter for the role line. The full text ships in the HTML (SEO, screen
       // readers, no-JS); we only blank it out and retype it when motion is allowed.
       const el = document.querySelector<HTMLElement>(".role .typed");
@@ -124,12 +136,26 @@ const year = new Date().getFullYear();
   body {
     margin: 0;
   }
+  /* Light theme: --paper must match the light ocean background (LIGHT.bg in renderer.ts). */
+  html[data-theme="light"] {
+    --paper: #fafaf8;
+    --ink: #16171b;
+    --body: #34363d;
+    --muted: #5c5f68;
+    --faint: #9a9ca3;
+    --rule: #e6e5e1;
+    color-scheme: light;
+  }
   html {
     color-scheme: dark;
   }
   ::selection {
     background: #2a3550;
     color: #fff;
+  }
+  html[data-theme="light"] ::selection {
+    background: #dfe6fb;
+    color: inherit;
   }
   a {
     color: inherit;
@@ -234,12 +260,5 @@ const year = new Date().getFullYear();
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--faint);
-  }
-  footer a {
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-  }
-  footer a:hover {
-    color: var(--ink);
   }
 </style>
