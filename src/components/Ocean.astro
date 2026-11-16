@@ -37,7 +37,10 @@
     // Fewer fish than the default area-based count keeps the page calm.
     const fishCount = Math.round((window.innerWidth * window.innerHeight) / 9000);
     registerOcean(
-      new OceanEngine(canvas, sharks, { theme: getTheme(), fishCount: Math.min(Math.max(fishCount, 50), 160) }),
+      new OceanEngine(canvas, sharks, {
+        theme: getTheme(),
+        fishCount: Math.min(Math.max(fishCount, 50), 160),
+      }),
     );
   }
 
@@ -64,6 +67,17 @@
     width: 100%;
     height: 100%;
     font-family: var(--font-mono);
+    animation: ocean-in 1.6s ease-out both;
+  }
+  @keyframes ocean-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    canvas {
+      animation: none;
+    }
   }
   .fade {
     position: absolute;

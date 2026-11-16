@@ -108,7 +108,9 @@ export function initScramble() {
     document.fonts?.ready ?? Promise.resolve(),
     new Promise((r) => setTimeout(r, 1200)),
   ]);
-  fontsReady.then(() => {
+  // Start a beat into the ocean's fade-in.
+  const beat = new Promise((r) => setTimeout(r, 400));
+  Promise.all([fontsReady, beat]).then(() => {
     scramble(hero, { duration: 1400 });
     root.classList.remove("intro");
   });
