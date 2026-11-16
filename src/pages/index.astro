@@ -22,6 +22,12 @@ const year = new Date().getFullYear();
           document.querySelector('meta[name="theme-color"]').setAttribute("content", "#fafaf8");
         }
       } catch (e) {}
+      // Opening: hide the name until scramble.ts decodes it in. The timeout is a
+      // safety net so the name never stays hidden if the module fails to load.
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("intro");
+        setTimeout(() => document.documentElement.classList.remove("intro"), 3000);
+      }
     </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -100,7 +106,8 @@ const year = new Date().getFullYear();
           el.classList.remove("typing");
           return setTimeout(tick, 700);
         };
-        setTimeout(tick, 500);
+        // Start once the name's opening decode is mostly done.
+        setTimeout(tick, 1300);
       }
     </script>
   </body>
@@ -159,6 +166,13 @@ const year = new Date().getFullYear();
   }
   a {
     color: inherit;
+  }
+  /* Shrink the hover target to the text itself instead of the full line. */
+  [data-scramble] {
+    width: fit-content;
+  }
+  html.intro h1[data-scramble] {
+    visibility: hidden;
   }
 </style>
 
