@@ -6,7 +6,7 @@ export const profile = {
   location: "Bellevue, WA",
   // Each string is its own paragraph.
   bio: [
-    "I'm a full-stack engineer, and a backend engineer at heart. Most of my time goes into data systems: running Spark on Kubernetes, modeling the world as a Neo4j graph, and chasing down why a database query is slow.",
+    "I'm a full-stack engineer, and a backend engineer at heart. Most of my time goes into data systems: running Spark on Kubernetes, modeling the world as a Neo4j graph, and making slow databases fast.",
     "Lately I've been pulled toward ML infrastructure and ML systems, the work of making models train, serve, and scale well. That curiosity is also where my research on efficient LLM inference comes from.",
   ],
   links: [
