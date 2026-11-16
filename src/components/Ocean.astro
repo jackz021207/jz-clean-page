@@ -25,7 +25,10 @@
   if (canvas) {
     const small = window.matchMedia("(max-width: 640px)").matches;
     const sharks: SharkSpec[] = small
-      ? [{ kind: "hammerhead", size: 1.1 }]
+      ? [
+          { kind: "hammerhead", size: 1.1 },
+          { kind: "classic", size: 0.8 },
+        ]
       : [
           { kind: "hammerhead", size: 1.45 },
           { kind: "classic", size: 1.0 },
